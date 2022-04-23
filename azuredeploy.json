@@ -168,7 +168,18 @@
             "name": "ubuntuVM1-OSDisk",
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "copy": [
+            {
+              "name": "dataDisks",
+              "count": 3,
+              "input": {
+                "lun": "[copyIndex('dataDisks')]",
+                "name": "aaa",
+                "createOption": "Empty"
+              }
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [
