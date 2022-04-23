@@ -176,7 +176,8 @@
               "input": {
                 "lun": "[copyIndex('dataDisks')]",
                 "name": "aaa",
-                "createOption": "Empty"
+                "createOption": "Empty",
+                "diskSizeGB": 1
               }
             }
           ]
