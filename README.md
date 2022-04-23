@@ -1,4 +1,4 @@
-# azure-arm-virtualmachine
+# ARM Template for Virtual Machine
 
 Example creating Virtual Machines using ARM Templates.
 
@@ -6,12 +6,12 @@ You'll need to have either **PowerShell Azure Extensions** or **Azure CLI**.
 
 ### Create the Resource Group
 
-For this example you create the resource group separately.
+For this example you create the resource group separately (or reuse one you have).
 
 ```ps1
 # PowerShell
 $resourceGroupName="your-resource-group-name"
-$location="eastus"
+$location="eastus2"
 
 Connect-AzAccount
 New-AzResourceGroup -Name $resourceGroupName -Location $location
@@ -20,13 +20,14 @@ New-AzResourceGroup -Name $resourceGroupName -Location $location
 ```bash
 # Azure CLI
 resourceGroupName="your-resource-group-name"
-location="eastus"
+location="eastus2"
 
 az login
 az group create --name $resourceGroupName --location $location
 ```
+### Deploy the Template
 
-### Set the variables
+Set the variables:
 
 ```ps1
 # PowerShell
@@ -48,9 +49,7 @@ storageKind="StorageV2"
 vmSize="Standard_A2_v2"
 ```
 
-### Deploy the Template
-
-Deploy the template:
+Trigger the deployment:
 
 ```ps1
 # PowerShell
@@ -71,6 +70,10 @@ az deployment group create \
   --name DeployLocalTemplate \
   --resource-group $resourceGroupName \
   --template-file $templateFile \
-  --parameters projectName=$projectName \
+  --parameters \
+  storageName=$storageName \
+  storageSku=$storageSku \
+  storageKind=$storageKind \
+  vmSize=$vmSize \
   --verbose
 ```
