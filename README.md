@@ -1,4 +1,12 @@
-# ARM Template for Virtual Machine
+# ARM Templates
+
+## Virtual Machine
+
+Enter the VM folder:
+
+```sh
+cd virtual-machine
+```
 
 Example creating Virtual Machines using ARM Templates.
 
@@ -77,3 +85,65 @@ az deployment group create \
   vmSize=$vmSize \
   --verbose
 ```
+
+## Key Vault
+
+Enter the `keyvault` directory:
+
+```sh
+cd keyvault
+```
+
+Directly copied/implemented from the documentation [tutorial][1].
+
+```sh
+az group create --name ExampleGroup --location eastus2
+az keyvault create \
+  --name kvarmtemplate999 \
+  --resource-group ExampleGroup \
+  --location centralus \
+  --enabled-for-template-deployment true
+
+az keyvault secret set --vault-name kvarmtemplate999 --name "ExamplePassword" --value "hVFkk965BuUv"
+```
+
+### Static
+
+Create the `static-parameters.json` file from the sample:
+
+```sh
+# Set the variables manually
+cp static-parameters-sample.json static-parameters.json
+```
+
+To deploy it with `STATIC` id:
+
+> ℹ️ The Key Vault resource ID is statically defined in the static-parameters.json` file.
+
+```sh
+az deployment group create \
+  --resource-group ExampleGroup \
+  --template-file static-resources.json \
+  --parameters static-parameters.json
+```
+
+### Dynamic
+
+Create the `dynamic-parameters.json` file from the sample:
+
+```sh
+# Set the variables manually
+cp dynamic-parameters-sample.json dynamic-parameters.json
+```
+
+To deploy it with `DYNAMIC` id:
+
+```sh
+az deployment group create \
+  --resource-group ExampleGroup \
+  --template-file dynamic-resources.json \
+  --parameters dynamic-parameters.json
+```
+
+
+[1]: https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/key-vault-parameter?tabs=azure-cli
